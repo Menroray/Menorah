@@ -13,7 +13,7 @@ if (
   typeof window.IntersectionObserver === "function"
 ) {
   const revealElements = document.querySelectorAll(
-    ".hero-copy > *, .hero-content > .portrait-frame, main section .container > *, .skills-grid > *, .project-grid > *, .experience-list > *, .education-card",
+    ".hero-copy > *, .hero-content > .portrait-frame, main section:not(.contact-section) .container > *, .skills-grid > *, .project-grid > *, .experience-list > *",
   );
 
   revealElements.forEach((element) => element.classList.add("reveal"));
@@ -22,7 +22,27 @@ if (
   const revealObserver = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
-        entry.target.classList.toggle("is-visible", entry.isIntersecting);
+        const element = entry.target;
+
+        if (!entry.isIntersecting) {
+          return;
+        }
+
+        element.classList.add("is-visible");
+        revealObserver.unobserve(element);
+
+        // Once revealed, hand transitions back to the component's own
+        // hover styles (the reveal rule otherwise overrides them and
+        // adds stagger delays to hover effects).
+        element.addEventListener(
+          "transitionend",
+          (event) => {
+            if (event.target === element && event.propertyName === "opacity") {
+              element.classList.remove("reveal", "is-visible");
+            }
+          },
+          { once: false },
+        );
       });
     },
     {
