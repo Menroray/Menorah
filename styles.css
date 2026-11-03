@@ -568,8 +568,21 @@ h3 {
 
 .contact-section {
   padding-block: var(--section-space);
-  background: var(--color-blue);
+  background:
+    radial-gradient(circle at top left, rgba(167, 192, 255, 0.2), transparent 25%),
+    linear-gradient(135deg, #2b53ca 0%, #1b3d8f 100%);
   color: var(--color-white);
+}
+
+.contact-shell {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(320px, 0.9fr);
+  gap: clamp(24px, 4vw, 42px);
+  align-items: end;
+}
+
+.contact-copy {
+  max-width: 640px;
 }
 
 .contact-section h2 {
@@ -586,21 +599,78 @@ h3 {
   font-size: 19px;
 }
 
+.contact-card {
+  padding: clamp(20px, 3vw, 30px);
+  border: 1px solid rgb(255 255 255 / 16%);
+  border-radius: 24px;
+  background: rgb(8 16 30 / 16%);
+  box-shadow: 0 24px 60px rgb(13 19 31 / 18%);
+  backdrop-filter: blur(8px);
+}
+
+.contact-details {
+  display: grid;
+  gap: 12px;
+  margin: 0 0 24px;
+  padding: 0;
+  list-style: none;
+}
+
+.contact-item {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px 12px;
+  padding: 12px 14px;
+  border: 1px solid rgb(255 255 255 / 12%);
+  border-radius: 14px;
+  background: rgb(255 255 255 / 5%);
+  font-size: 16px;
+}
+
+.contact-item strong {
+  font-size: 14px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #dfe8ff;
+}
+
+.contact-section .contact-details a {
+  color: var(--color-white);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
 .contact-section .button-row {
   margin-top: 0;
+  gap: 12px;
 }
 
 .contact-section .button {
-  max-width: 100%;
   min-height: 52px;
-  padding-inline: 30px;
-  font-size: 17px;
+  padding-inline: 22px;
+  font-size: 16px;
   overflow-wrap: anywhere;
 }
 
 .contact-section .button-outline-light {
-  border-color: var(--color-white);
+  border-color: rgb(255 255 255 / 42%);
+  background: rgb(255 255 255 / 0.04);
   color: var(--color-white);
+}
+
+.contact-section .button-outline-light:hover {
+  background: rgb(255 255 255 / 0.12);
+}
+
+@media (max-width: 760px) {
+  .contact-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-item {
+    flex-direction: column;
+  }
 }
 
 .site-footer {
