@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Receipt #{{ payment.payment_id }}{% endblock %}
+{% block content %}
+<p class="breadcrumbs"><a href="{{ url_for('student_detail', student_id=payment.student_id) }}">{{ payment.full_name }}</a><span>/</span>Receipt</p>
+<article class="receipt-card">
+  <div class="receipt-header"><span class="receipt-mark">A</span><p class="eyebrow">ACADEMIX · PAYMENT RECEIPT</p><h1>Payment received</h1><p>Receipt #{{ payment.payment_id }} · {{ payment.date_paid }}</p></div>
+  <div class="receipt-person"><div><small>Received from</small><strong>{{ payment.paid_by or payment.full_name }}</strong></div><div><small>Student</small><strong>{{ payment.full_name }}</strong><span>{{ payment.class_grade or payment.current_grade }}</span></div></div>
+  <div class="receipt-amount"><small>Amount paid</small><strong>GH₵{{ "%.2f"|format(payment.amount_paid) }}</strong></div>
+  <dl class="receipt-details">
+    <div><dt>Term</dt><dd>{{ payment.term_name }}</dd></div><div><dt>Payment method</dt><dd>{{ payment.payment_method or "Cash" }}</dd></div>
+    <div><dt>Total term bill</dt><dd>GH₵{{ "%.2f"|format(payment.term_fees_billed) }}</dd></div><div><dt>Total payments</dt><dd>GH₵{{ "%.2f"|format(payment.total_paid) }}</dd></div>
+    <div class="receipt-total"><dt>Current balance</dt><dd>GH₵{{ "%.2f"|format(balance) }}</dd></div>
+  </dl>
+  <p class="receipt-thanks">Thank you. Please retain this receipt for your records.</p>
+  <button class="button secondary print-button" type="button" onclick="window.print()">Print receipt</button>
+</article>
+{% endblock %}

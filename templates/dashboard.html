@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block title %}Overview{% endblock %}
+{% block content %}
+<section class="page-heading">
+  <div>
+    <p class="eyebrow">SCHOOL ADMINISTRATION</p>
+    <h1>Overview</h1>
+    <p class="muted">A clear view of fee collection and student balances.</p>
+  </div>
+  <a class="button secondary" href="{{ url_for('students') }}">View all students <span aria-hidden="true">→</span></a>
+</section>
+
+<section class="stat-grid" aria-label="Fee totals">
+  <article class="stat-card"><span class="stat-icon indigo">₵</span><p>Total billed</p><strong>{{ summary.billed }}</strong><small>Across {{ student_count }} students</small></article>
+  <article class="stat-card"><span class="stat-icon green">↗</span><p>Total collected</p><strong>{{ summary.collected }}</strong><small>Payments recorded to date</small></article>
+  <article class="stat-card"><span class="stat-icon amber">◷</span><p>Outstanding</p><strong>{{ summary.owing }}</strong><small>Remaining fees to collect</small></article>
+</section>
+
+<section class="content-grid">
+  <article class="panel">
+    <div class="panel-heading"><div><h2>Recent payments</h2><p>Latest recorded transactions</p></div></div>
+    {% if recent_payments %}
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Student</th><th>Method</th><th>Date</th><th class="right">Amount</th><th></th></tr></thead>
+        <tbody>
+          {% for payment in recent_payments %}
+          <tr>
+            <td><a class="person-link" href="{{ url_for('student_detail', student_id=payment.student_id) }}">{{ payment.full_name }}</a><small class="cell-sub">Payment #{{ payment.payment_id }}</small></td>
+            <td><span class="badge">{{ payment.payment_method or "Cash" }}</span></td>
+            <td>{{ payment.date_paid }}</td>
+            <td class="right amount">GH₵{{ "%.2f"|format(payment.amount_paid) }}</td>
+            <td><a class="icon-link" title="View receipt" href="{{ url_for('payment_receipt', payment_id=payment.payment_id) }}">↗</a></td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% else %}
+    <div class="empty-state"><span>₵</span><strong>No payments yet</strong><p>Payment activity will appear here.</p></div>
+    {% endif %}
+  </article>
+  <article class="panel">
+    <div class="panel-heading"><div><h2>Student balances</h2><p>Recent accounts at a glance</p></div><a class="text-link" href="{{ url_for('students') }}">See ledger</a></div>
+    {% if students %}
+    <div class="compact-list">
+      {% for sid, name, grade, billed, paid, owing, status in students %}
+      <a class="student-row" href="{{ url_for('student_detail', student_id=sid) }}">
+        <span class="avatar">{{ name[:1]|upper }}</span>
+        <span class="student-meta"><strong>{{ name }}</strong><small>{{ grade }} · {{ status|replace(" ✅", "") }}</small></span>
+        <span class="student-balance"><strong>{{ owing }}</strong><small>balance</small></span>
+      </a>
+      {% endfor %}
+    </div>
+    {% else %}
+    <div class="empty-state"><strong>No students yet</strong><p>Student accounts will appear here.</p></div>
+    {% endif %}
+  </article>
+</section>
+{% endblock %}

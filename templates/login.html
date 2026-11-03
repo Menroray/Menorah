@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Admin sign in{% endblock %}
+{% block content %}
+<section class="login-panel panel">
+  <p class="eyebrow">ADMIN ACCESS</p>
+  <h1>Sign in</h1>
+  <p class="muted">Use the administrator credentials configured for this deployment.</p>
+  <form method="post" action="{{ url_for('login_submit', next=request.args.get('next', '')) }}" class="stack-form">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+    <label>Username<input name="username" autocomplete="username" required></label>
+    <label>Password<input type="password" name="password" autocomplete="current-password" required></label>
+    <button class="button primary" type="submit">Sign in</button>
+  </form>
+</section>
+{% endblock %}

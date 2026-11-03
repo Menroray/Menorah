@@ -1,45 +1,37 @@
-# Kingsley Glover - Portfolio
+# Fees Tracker System web demo
 
-A responsive, static portfolio built with semantic HTML, plain CSS, and a
-small progressive-enhancement script. There is no framework, build step, or
-runtime dependency to install.
-
-## Project files
-
-- `index.html` — page structure and portfolio content; this is the entry point
-  used by GitHub Pages.
-- `styles.css` — design tokens, components, responsive layout, hover transitions,
-  and reduced-motion styles.
-- `script.js` — updates the copyright year and repeats content reveal effects as
-  you scroll; the page remains usable if JavaScript is disabled.
-- The compact footer stays fixed to the bottom of the viewport; page spacing
-  keeps the final content reachable above it.
-- `assets/` — images used by the page.
+A browser-based public demo of the school fees tracker. The demo uses
+synthetic records, is read-only, and stores its database separately from the
+desktop app.
 
 ## Run locally
 
-Open `index.html` in a browser, or serve this folder with any static file
-server. For example, from this directory run `python -m http.server 8000` and
-visit `http://localhost:8000`.
+```powershell
+python -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+.\.venv\Scripts\python.exe webapp.py
+```
 
-Google Fonts are loaded from Google Fonts when a network connection is
-available. System font fallbacks are defined in the stylesheet.
+Open <http://127.0.0.1:5000>.
 
-## Publish with GitHub Pages
+## Deploy to Render
 
-1. Create a GitHub repository and push these project files to its `main` branch.
-2. In the repository, open **Settings → Pages**.
-3. Under **Build and deployment**, choose **Deploy from a branch**.
-4. Select the `main` branch and the `/(root)` folder, then save.
-5. After GitHub finishes deploying, the Pages URL appears on that settings page.
+This branch contains the Render Blueprint in `render.yaml`.
 
-## Editing guide
+1. In Render, choose **New > Blueprint**.
+2. Connect this repository and select the `fees-tracker-system` branch.
+3. Apply the Blueprint. Render will build the Flask app and provide its URL.
 
-- Update copy, links, or page sections in `index.html`.
-- Adjust shared colors, typography, spacing, and layout in the `:root` tokens
-  near the top of `styles.css`; component-specific styles follow below.
-- Keep any new section links and section IDs matched so the navigation works.
-- Keep external links that open a new tab paired with
-  `rel="noopener noreferrer"`.
-- Avoid inline styles and dependencies that require a build system; this keeps
-  the site easy to host and maintain.
+The public deployment is configured with `DEMO_MODE=true` and
+`READ_ONLY_DEMO=true`. It uses sample data only. Its database is temporary
+and may reset when the service restarts; do not use this configuration for
+real student records.
+
+## Project contents
+
+- `webapp.py` — Flask routes and demo configuration
+- `templates/` and `static/` — browser interface
+- `backend/` and `database/` — fee operations and isolated web database
+- `render.yaml` — Render deployment configuration
+
+The portfolio site from the `main` branch remains unchanged.

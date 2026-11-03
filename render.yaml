@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: fees-tracker-demo
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn webapp:app
+    healthCheckPath: /healthz
+    autoDeploy: true
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.8
+      - key: DEMO_MODE
+        value: "true"
+      - key: READ_ONLY_DEMO
+        value: "true"
+      - key: SESSION_COOKIE_SECURE
+        value: "true"
+      - key: FEES_TRACKER_DB_PATH
+        value: /tmp/fees-tracker-demo.db
+      - key: SECRET_KEY
+        generateValue: true

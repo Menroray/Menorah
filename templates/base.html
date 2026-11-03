@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Fees Tracker{% endblock %} · Academix</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="{{ url_for('dashboard') }}">
+      <span class="brand-mark">A</span>
+      <span>Academix <small>FEES MANAGEMENT</small></span>
+    </a>
+    <nav>
+      <a href="{{ url_for('dashboard') }}">Overview</a>
+      <a href="{{ url_for('students') }}">Students</a>
+      {% if admin_signed_in %}
+      <form method="post" action="{{ url_for('logout') }}" class="nav-form">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+        <button class="nav-button" type="submit">Sign out</button>
+      </form>
+      {% elif not read_only_demo %}
+      <a href="{{ url_for('login') }}">Admin sign in</a>
+      {% endif %}
+    </nav>
+  </header>
+  <main class="page">
+    {% if read_only_demo %}
+    <div class="demo-banner"><strong>Public demo</strong><span>Sample records only · Changes are disabled</span></div>
+    {% endif %}
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+      <div class="flash-list">
+        {% for category, message in messages %}
+        <div class="flash {{ category }}">{{ message }}</div>
+        {% endfor %}
+      </div>
+      {% endif %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+  </main>
+  <footer>Academix Fees Tracker <span>·</span> Secure school administration</footer>
+</body>
+</html>
