@@ -790,13 +790,13 @@ h3 {
   .education-card:hover,
   .skill-card:hover,
   .project-card:hover {
-    transform: translateY(-5px);
+    translate: 0 -5px;
     border-color: rgb(47 95 208 / 38%);
     box-shadow: 0 16px 36px rgb(20 24 31 / 9%);
   }
 
   .featured-project:hover {
-    transform: translateY(-3px);
+    translate: 0 -3px;
     border-color: #3c4a60;
     box-shadow: 0 20px 48px rgb(0 0 0 / 18%);
   }
@@ -812,6 +812,7 @@ h3 {
   opacity: 0;
   transition: opacity var(--motion-slow) var(--ease-out),
     transform var(--motion-slow) var(--ease-out),
+    translate var(--motion-base) var(--ease-out),
     filter var(--motion-slow) var(--ease-out),
     clip-path var(--motion-slow) var(--ease-out);
 }
@@ -1118,10 +1119,12 @@ h3 {
 
   .motion-ready .reveal {
     transform: none;
-    opacity: 1;
+    opacity: 0;
     filter: none;
     clip-path: none;
-    transition: none;
+    transition-property: opacity;
+    transition-duration: 180ms !important;
+    transition-timing-function: ease;
     will-change: auto;
   }
 }

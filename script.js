@@ -6,10 +6,6 @@ if (currentYear) {
   currentYear.textContent = String(new Date().getFullYear());
 }
 
-const reducedMotion =
-  typeof window.matchMedia === "function"
-    ? window.matchMedia("(prefers-reduced-motion: reduce)")
-    : null;
 const revealGroups = [
   { selector: ".hero-copy > *", effect: "rise" },
   { selector: ".hero-content > .portrait-frame", effect: "portrait" },
@@ -35,17 +31,6 @@ const revealGroups = [
 ];
 const revealElements = [];
 let revealObserver;
-
-function disableRevealAnimations() {
-  revealObserver?.disconnect();
-  revealObserver = undefined;
-
-  revealElements.forEach(({ element, effect }) => {
-    element.classList.remove("reveal", "is-visible", `reveal-${effect}`);
-  });
-  revealElements.length = 0;
-  document.documentElement.classList.remove("motion-ready");
-}
 
 function enableRevealAnimations() {
   if (typeof window.IntersectionObserver !== "function") {
@@ -80,18 +65,4 @@ function enableRevealAnimations() {
   revealElements.forEach(({ element }) => revealObserver.observe(element));
 }
 
-function syncRevealAnimations() {
-  if (reducedMotion?.matches) {
-    disableRevealAnimations();
-  } else {
-    enableRevealAnimations();
-  }
-}
-
-syncRevealAnimations();
-
-if (typeof reducedMotion?.addEventListener === "function") {
-  reducedMotion.addEventListener("change", syncRevealAnimations);
-} else if (typeof reducedMotion?.addListener === "function") {
-  reducedMotion.addListener(syncRevealAnimations);
-}
+enableRevealAnimations();
